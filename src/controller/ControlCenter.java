@@ -14,7 +14,7 @@ public class ControlCenter implements UserInputEventListener {
 
 	public ControlCenter() {
 		model = new SimulationModel();
-		view = new TopDownCarView();
+		view = new TopDownCarView(model);
 		gameSimulationTicker = new Ticker(new TimerTask() {
 			
 			@Override
