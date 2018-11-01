@@ -8,10 +8,17 @@ public class Ticker {
 	long timeInterval_ms;
 	TimerTask callbackFn;
 	
-	public Ticker(TimerTask callbackFn, long interval_ms) {
+	public Ticker(TimerEventListener listener, long interval_ms) {
 		t = new Timer();
 		
-		this.callbackFn = callbackFn;
+		this.callbackFn = new TimerTask() {
+			
+			@Override
+			public void run() {
+				listener.handleTimerEvent(System.currentTimeMillis());
+			}
+		};
+		
 		this.timeInterval_ms = interval_ms;
 		
 	}

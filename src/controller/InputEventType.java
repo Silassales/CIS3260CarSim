@@ -6,5 +6,6 @@ enum InputEventType {
 	SPEED_UP,
 	SLOW_DOWN,
 	TURN_LEFT,
-	TURN_RIGHT
+	TURN_RIGHT,
+	SHUT_DOWN
 }

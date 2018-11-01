@@ -11,7 +11,7 @@ public class TopDownCarView {
     	this.simulationModel = model;
 	}
 
-    void updateView() {
+    public void updateView() {
         // do some crazy ass shiiittt
     }
 }
