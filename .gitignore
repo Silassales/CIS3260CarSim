@@ -21,6 +21,10 @@ local.properties
 .settings/
 .loadpath
 
+# intellj specific git ignore
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+
 # External tool builders
 .externalToolBuilders/
 
