@@ -6,6 +6,9 @@ public class Engine {
 	private Double temperatureC = null;  
 	private Boolean isEngineOn = null; 
 	
+	public boolean isEngineOn() {
+		return this.isEngineOn;
+	}
 	public void startEngine() {
 		this.isEngineOn = true; 
 	}
@@ -15,8 +18,14 @@ public class Engine {
 	public double getRpm() {
 		return this.rpm; 
 	}
-	public boolean isEngineOn() {
-		return this.isEngineOn;
+	public void setRpm(double rpm) {
+		this.rpm = rpm; 
+	}
+	public double getTemperatureC() {
+		return this.temperatureC; 
+	}
+	public void setTemperatureC(double temperatureC) {
+		this.temperatureC = temperatureC; 
 	}
 	
 	private Engine(EngineBuilder builder) {
@@ -45,7 +54,18 @@ public class Engine {
 			return this; 
 		}
 		
-		public Engine build() {
+		public Engine build() throws NullDataFoundAtBuild {
+			
+			if (this.rpm == null) {
+				throw new NullDataFoundAtBuild("this.rpm == null. Cannot build.");
+			}
+			if (this.temperatureC == null) {
+				throw new NullDataFoundAtBuild("this.temperatureC == null. Cannot build.");
+			}
+			if (this.isEngineOn == null) {
+				throw new NullDataFoundAtBuild("this.isEngineOn == null. Cannot build.");
+			}
+			
 			return new Engine(this); 
 		}
 	
