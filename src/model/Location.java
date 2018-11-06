@@ -9,12 +9,25 @@ public class Location {
 	private Double longitude = null; //y position of carState
 	private Double altitudeM = null; //Meters Altitude
 	
+	// We don't know if this is correct or not, please help.
+	public void updateSpeed (double timeDelta_ms, double rpm) {
+		speedms = rpm * Math.PI * timeDelta_ms/60/1000;
+	
+	}
 	
 	public void updateLocation(double timeDelta_ms) {
-		/* 
-			logic for updating altitude, latitude, longitude and speed based on time. 
-		*/
+		double distance = speedms * timeDelta_ms;
+		double dispLat = distance * Math.cos(Math.toRadians(directionDegrees));
+		double dispLon = distance * Math.sin(Math.toRadians(directionDegrees));
+		latitude += dispLat;
+		longitude += dispLon;
+		
 	}
+	
+	public void steerVehicle(double timeDelta_ms, double frontWheelDeviation) {
+		directionDegrees += frontWheelDeviation * timeDelta_ms;
+	}
+	
 	public Double getSpeedms() {
 		return speedms;
 	}

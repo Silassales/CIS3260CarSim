@@ -26,6 +26,10 @@ public class CarState {
 		return this.frontWheelDeviation; 
 	}
 	
+	public void updateGas(double gasRate, double timeDelta_ms) {
+		this.gasLevel = gasRate *timeDelta_ms;
+	}
+
 	/* not final methods just ideas */
 	public void decreaseGasBy(double percent) {
 		this.gasLevel -= percent; 
