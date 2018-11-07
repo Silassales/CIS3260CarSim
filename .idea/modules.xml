@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/CIS3260CarSim.iml" filepath="$PROJECT_DIR$/.idea/CIS3260CarSim.iml" />
-      <module fileurl="file://$PROJECT_DIR$/src/view/GUI/user-interface.iml" filepath="$PROJECT_DIR$/src/view/GUI/user-interface.iml" />
     </modules>
   </component>
 </project>
