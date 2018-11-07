@@ -1,6 +1,7 @@
 package controller;
 
-enum InputEventType {
+public enum InputEventType {
+	TEST,
 	SHIFT_GEAR_UP,
 	SHIFT_GEAR_DOWN,
 	SPEED_UP,
