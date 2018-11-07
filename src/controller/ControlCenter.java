@@ -1,12 +1,16 @@
 package controller;
 
+import javafx.application.Application;
+import javafx.application.Platform;
 import model.SimulationModel;
-import view.TopDownCarView;
+import view.userInterface.TopDownCarView;
+
+import java.util.concurrent.TimeUnit;
 
 public class ControlCenter implements UserInputEventListener, TimerEventListener {
 	private SimulationModel model;
-	private TopDownCarView view;
 	private Ticker gameSimulationTicker;
+	private static TopDownCarView topDownCarView = null;
 	
 	private long timeInterval_ms = 1000 / 2; // Number of milleseconds per frame, 2fps
 	
@@ -22,36 +26,53 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 	
 	private ControlCenter() {
 		model = new SimulationModel();
-		view = new TopDownCarView(model);
 		gameSimulationTicker = new Ticker(this, timeInterval_ms);
 	}
 
 	@Override
 	public void handleUserInput(InputEvent e) {
+	    if(topDownCarView == null) {
+	        throw new IllegalStateException("topDownCarView not initialized in handleUserInput");
+        }
+
 		// TODO Auto-generated method stub
 		System.out.println("We have an event!" + e);
-		
-		if (e.getEventType() == InputEventType.QUIT_PROGRAM) {
-			stopSimulation();
-		}
+
+		switch(e.getEventType()) {
+            case QUIT_PROGRAM:
+                stopSimulation();
+                break;
+            case TEST:
+                System.out.println("testing");
+                topDownCarView.updateTest();
+                break;
+            default:
+                break;
+        }
 	}
 	
 	@Override
 	public void handleTimerEvent(long currentTime) {
 		System.out.println("Timer event! " + currentTime);
-		view.updateView();
+		// TODO
+		//view.updateView(); once I get POC working for updating things on the UI thread, I will fix this
 	}
 	
 	public void startSimulation() {
 		gameSimulationTicker.startTicker();
 	}
 	
-	public void stopSimulation() {
-		gameSimulationTicker.stopTicker();
-	}
+	public void stopSimulation() { gameSimulationTicker.stopTicker(); }
 
 	public static void main(String[] args) {
 		System.out.println("Welcome to the car sim!");
-		getControlCenter().startSimulation();
+        getControlCenter().startSimulation();
+        new Thread() {
+            @Override
+            public void run() {
+                javafx.application.Application.launch(TopDownCarView.class);
+            }
+        }.start();
+        topDownCarView = TopDownCarView.waitForTopDownCarView();
 	}
 }
