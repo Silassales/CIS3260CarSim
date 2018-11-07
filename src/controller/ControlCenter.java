@@ -31,7 +31,7 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 		// TODO Auto-generated method stub
 		System.out.println("We have an event!" + e);
 		
-		if (e.getEventType() == InputEventType.SHUT_DOWN) {
+		if (e.getEventType() == InputEventType.QUIT_PROGRAM) {
 			stopSimulation();
 		}
 	}
