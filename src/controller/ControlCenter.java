@@ -2,6 +2,7 @@ package controller;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import model.NullDataFoundAtBuild;
 import model.SimulationModel;
 import view.userInterface.TopDownCarView;
 
@@ -25,7 +26,12 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 	}
 	
 	private ControlCenter() {
-		model = new SimulationModel();
+		try {
+			model = new SimulationModel();
+		} catch (NullDataFoundAtBuild e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		gameSimulationTicker = new Ticker(this, timeInterval_ms);
 	}
 
