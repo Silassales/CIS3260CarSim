@@ -1,31 +1,30 @@
 package model;
 
-public class Location {
+public class Location implements ISimulatable {
 
+	@Override
+	public String toString() {
+		return "Location [speedms=" + speedms + ", directionDegrees=" + directionDegrees + ", latitude=" + latitude
+				+ ", longitude=" + longitude + ", altitudeM=" + altitudeM + "]";
+	}
 
 	private Double speedms = null; //Speed Milliseconds
-	private Double directionDegrees = null; //Degree, 0 to 360
+	Double directionDegrees = null; //Degree, 0 to 360
 	private Double latitude = null; //x position of carState
 	private Double longitude = null; //y position of carState
 	private Double altitudeM = null; //Meters Altitude
 	
-	// We don't know if this is correct or not, please help.
-	public void updateSpeed (double timeDelta_ms, double rpm) {
-		speedms = rpm * Math.PI * timeDelta_ms/60/1000;
-	
+	public void updateSpeed (double timeDelta_ms) {
+		speedms *= 0.95; // Slowly decrease speed 
 	}
 	
 	public void updateLocation(double timeDelta_ms) {
-		double distance = speedms * timeDelta_ms;
+		double distance = speedms * (timeDelta_ms / 1000);
 		double dispLat = distance * Math.cos(Math.toRadians(directionDegrees));
 		double dispLon = distance * Math.sin(Math.toRadians(directionDegrees));
 		latitude += dispLat;
 		longitude += dispLon;
 		
-	}
-	
-	public void steerVehicle(double timeDelta_ms, double frontWheelDeviation) {
-		directionDegrees += frontWheelDeviation * timeDelta_ms;
 	}
 	
 	public Double getSpeedms() {
@@ -136,6 +135,13 @@ public class Location {
 		}
 	
 		
+	}
+
+	@Override
+	public void iterateSimulation(long time_ms) {
+		// TODO Auto-generated method stub
+		updateLocation(time_ms);
+		updateSpeed(time_ms);
 	}
 	
 	

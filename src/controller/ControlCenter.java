@@ -1,12 +1,8 @@
 package controller;
 
-import javafx.application.Application;
-import javafx.application.Platform;
 import model.NullDataFoundAtBuild;
 import model.SimulationModel;
 import view.userInterface.TopDownCarView;
-
-import java.util.concurrent.TimeUnit;
 
 public class ControlCenter implements UserInputEventListener, TimerEventListener {
 	private SimulationModel model;
@@ -32,6 +28,7 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		gameSimulationTicker = new Ticker(this, timeInterval_ms);
 	}
 
@@ -58,8 +55,10 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 	}
 	
 	@Override
-	public void handleTimerEvent(long currentTime) {
+	public void handleTimerEvent(long time_delta_ms, long currentTime) {
 		System.out.println("Timer event! " + currentTime);
+		model.iterateSimulation(time_delta_ms);
+		System.out.println(model);
 		// TODO
 		//view.updateView(); once I get POC working for updating things on the UI thread, I will fix this
 	}

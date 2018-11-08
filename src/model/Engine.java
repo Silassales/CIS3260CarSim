@@ -1,6 +1,11 @@
 package model;
 
-public class Engine {
+public class Engine implements ISimulatable {
+
+	@Override
+	public String toString() {
+		return "Engine [rpm=" + rpm + ", temperatureC=" + temperatureC + ", isEngineOn=" + isEngineOn + "]";
+	}
 
 	private Double rpm = null;
 	private Double temperatureC = null;
@@ -16,8 +21,8 @@ public class Engine {
 		this.isEngineOn = false;
 	}
 
-	public void updateEngineTemp(double timeDelta_ms, double speedms) {
-		double tempChange = timeDelta_ms * speedms * 0.05;
+	public void updateEngineTemp(double timeDelta_ms) {
+		double tempChange = timeDelta_ms/1000 * rpm/1000 * 0.5;
 		this.temperatureC +=  tempChange;
 	}
 
@@ -32,6 +37,12 @@ public class Engine {
 	}
 	public void setTemperatureC(double temperatureC) {
 		this.temperatureC = temperatureC;
+	}
+
+	@Override
+	public void iterateSimulation(long time_ms) {
+		// TODO Auto-generated method stub
+		updateEngineTemp(time_ms);
 	}
 
 	private Engine(EngineBuilder builder) {

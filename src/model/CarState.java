@@ -1,11 +1,14 @@
 package model;
 
-import model.Location.LocationBuilder;
+public class CarState implements ISimulatable {
+	
+	@Override
+	public String toString() {
+		return "CarState [location=" + location + ", engine=" + engine + ", transmission=" + transmission
+				+ ", gasLevel=" + gasLevel + ", structuralIntegrity=" + structuralIntegrity + ", frontWheelDeviation="
+				+ frontWheelDeviation + "]";
+	}
 
-public class CarState {
-	
-	
-	
 	/* Objects */ 
 	public Location location = null;//Using builder in initialize to populate
 	public Engine engine = null; 	//Using builder in initialize to populate
@@ -26,17 +29,22 @@ public class CarState {
 		return this.frontWheelDeviation; 
 	}
 	
-	public void updateGas(double gasRate, double timeDelta_ms) {
-		this.gasLevel = gasRate *timeDelta_ms;
+	public void updateGas(long timeDelta_ms) {
+		this.gasLevel -= engine.getRpm()/1000 * timeDelta_ms/1000;
 	}
 
-	/* not final methods just ideas */
-	public void decreaseGasBy(double percent) {
-		this.gasLevel -= percent; 
+	public void steerVehicle(long timeDelta_ms) {
+		location.directionDegrees += frontWheelDeviation * timeDelta_ms/1000;
 	}
-	
-	/* Not sure the logic of the rest of the 'sets' */
-		
+
+	@Override
+	public void iterateSimulation(long time_ms) {
+		// TODO Auto-generated method stub
+		engine.iterateSimulation(time_ms);
+		location.iterateSimulation(time_ms);
+		steerVehicle(time_ms);
+		updateGas(time_ms);
+	}
 	
 	/* Built car has is OFF, in PARK, room temperature, rpm is 0, and in default location */
 	private CarState(CarStateBuilder builder) {
@@ -129,6 +137,5 @@ public class CarState {
 		
 		
 	}
-	
 
 }

@@ -3,7 +3,14 @@ package model;
 public class Transmission {
 	
 	private Integer currentGear = null; 
-	private Integer totalGears = null; 
+	private Integer totalGears = null;
+	
+	@Override
+	public String toString() {
+		return "Transmission [currentGear=" + currentGear + ", totalGears=" + totalGears + "]";
+	}
+
+
 	private Boolean hasReverse = null; 
 
 	private Transmission(TransmissionBuilder builder) {

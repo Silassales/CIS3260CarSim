@@ -7,15 +7,21 @@ public class Ticker {
 	Timer t;
 	long timeInterval_ms;
 	TimerTask callbackFn;
+	long prevTime;
 	
 	public Ticker(TimerEventListener listener, long interval_ms) {
 		t = new Timer();
+		prevTime = System.currentTimeMillis();
 		
 		this.callbackFn = new TimerTask() {
 			
 			@Override
 			public void run() {
-				listener.handleTimerEvent(System.currentTimeMillis());
+				long currentTime = System.currentTimeMillis();
+				
+				listener.handleTimerEvent(currentTime - prevTime, System.currentTimeMillis());
+				
+				prevTime = currentTime;
 			}
 		};
 		
