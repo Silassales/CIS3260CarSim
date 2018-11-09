@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
 import model.NullDataFoundAtBuild;
 import model.SimulationModel;
 import view.userInterface.TopDownCarView;
@@ -10,8 +13,9 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 	private SimulationModel model;
 	private Ticker gameSimulationTicker;
 	private static TopDownCarView topDownCarView = null;
+	private CyclicBarrier drawSignaler = null;
 	
-	private long timeInterval_ms = 1000 / 2; // Number of milleseconds per frame, 2fps
+	private long timeInterval_ms = (long) (1000 / 2); // Number of milleseconds per frame, 2fps
 	
 	private static ControlCenter singletonRef = null;
 
@@ -61,8 +65,18 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 		System.out.println("Timer event! " + currentTime);
 		model.iterateSimulation(time_delta_ms);
 		System.out.println(model);
-		// TODO
-		//view.updateView(); once I get POC working for updating things on the UI thread, I will fix this
+		
+		if (drawSignaler == null) {
+			drawSignaler = topDownCarView.getDrawSignaler();
+		}
+		
+		// Signal to the view to update
+		try {
+			drawSignaler.await();
+		} catch (InterruptedException | BrokenBarrierException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void startSimulation() {
@@ -73,7 +87,6 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 
 	public static void main(String[] args) {
 		System.out.println("Welcome to the car sim!");
-        getControlCenter().startSimulation();
         new Thread() {
             @Override
             public void run() {
@@ -81,5 +94,7 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
             }
         }.start();
         topDownCarView = TopDownCarView.waitForTopDownCarView();
+        
+        getControlCenter().startSimulation();
 	}
 }

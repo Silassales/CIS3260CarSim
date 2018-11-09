@@ -20,5 +20,10 @@ public class ViewController {
     public void testUpdate() {
         testButton.setText("UPDATEDDDDD!");
     }
+    
+    public void updateView() {
+    	// Update view components
+    	System.out.println("Updating the view components");
+    }
 
 }
