@@ -4,17 +4,22 @@ import controller.ControlCenter;
 import controller.InputEvent;
 import controller.InputEventType;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 
 public class TopDownCarView extends Application {
 
     public static final CountDownLatch latch = new CountDownLatch(1);
     public static TopDownCarView topDownCarView = null;
+    
+    private CyclicBarrier drawSignaler;
 
     ViewController viewController;
 
@@ -31,8 +36,13 @@ public class TopDownCarView extends Application {
         topDownCarView = topDownCarView0;
         latch.countDown();
     }
+    
+    public CyclicBarrier getDrawSignaler() {
+    	return drawSignaler;
+    }
 
     public TopDownCarView() {
+    	drawSignaler = new CyclicBarrier(2);
         setTopDownCarView(this);
     }
 
@@ -45,6 +55,26 @@ public class TopDownCarView extends Application {
         Scene mainScene = new Scene(root, 1000, 800);
         primaryStage.setScene(mainScene);
         primaryStage.show();
+        
+        new Thread() {
+        	public void run() {
+        		while(true) {
+        			try {
+						drawSignaler.await();
+					} catch (InterruptedException | BrokenBarrierException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        			
+        			// Update the UI on it's own terms
+        			Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							viewController.updateView();						}
+					});
+        		}
+        	}
+        }.start();
     }
 
     @Override
@@ -55,9 +85,4 @@ public class TopDownCarView extends Application {
     public void updateTest() {
         viewController.testUpdate();
     }
-
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
-
 }
