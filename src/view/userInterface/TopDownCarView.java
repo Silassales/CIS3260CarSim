@@ -82,7 +82,4 @@ public class TopDownCarView extends Application {
         ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.QUIT_PROGRAM));
     }
 
-    public void updateTest() {
-        viewController.testUpdate();
-    }
 }

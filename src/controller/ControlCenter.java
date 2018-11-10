@@ -51,10 +51,6 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
             case QUIT_PROGRAM:
                 stopSimulation();
                 break;
-            case TEST:
-                System.out.println("testing");
-                topDownCarView.updateTest();
-                break;
             default:
                 break;
         }
