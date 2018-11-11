@@ -13,7 +13,7 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 	private static TopDownCarView topDownCarView = null;
 	private CyclicBarrier drawSignaler = null;
 	
-	private long timeInterval_ms = (long) (1000 / 2); // Number of milleseconds per frame, 2fps
+	private long timeInterval_ms = (long) (1000 / 60); // Number of milleseconds per frame, 2fps
 	
 	private static ControlCenter singletonRef = null;
 

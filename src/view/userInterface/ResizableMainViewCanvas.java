@@ -85,7 +85,7 @@ public class ResizableMainViewCanvas extends Canvas {
 
         /* TODO change this to an actual image of a car */
         gc.setFill(Color.BLACK);
-        gc.fillRect(carX, carY, 20, 50);
+        gc.fillRect(carX, carY, 2, 5);
     }
 
     private void drawBuildings(GraphicsContext gc, SimulationModel model) {

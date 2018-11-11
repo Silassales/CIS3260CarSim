@@ -85,7 +85,7 @@ public class CarState implements ISimulatable {
 		// TODO handle different acceleration rates with different gears
 		// TODO don't go backwards when braking while stopped
 		
-		location.setSpeedms((location.getSpeedms() + (acceleration * (timeDelta_ms / 1000))) * 0.95);
+		location.setSpeedms((location.getSpeedms() + (acceleration * (timeDelta_ms / 1000))));
 	}
 
 	@Override
