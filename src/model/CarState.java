@@ -39,6 +39,14 @@ public class CarState implements ISimulatable {
 		this.isAccelerating = accelerating;
 	}
 	
+	public boolean isAccelerating() {
+		return isAccelerating;
+	}
+	
+	public boolean isBraking() {
+		return isBraking;
+	}
+	
 	public void turnLeft() {
 		this.frontWheelDeviation = -45.0;
 	}
@@ -74,12 +82,10 @@ public class CarState implements ISimulatable {
 			}
 		} 
 		
-		acceleration -= 1.5; // Rolling resistance
-		
 		// TODO handle different acceleration rates with different gears
 		// TODO don't go backwards when braking while stopped
 		
-		location.setSpeedms(location.getSpeedms() + (acceleration * (timeDelta_ms / 1000)));
+		location.setSpeedms((location.getSpeedms() + (acceleration * (timeDelta_ms / 1000))) * 0.95);
 	}
 
 	@Override

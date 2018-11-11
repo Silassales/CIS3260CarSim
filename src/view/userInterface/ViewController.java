@@ -4,6 +4,7 @@ import controller.ControlCenter;
 import controller.InputEvent;
 import controller.InputEventType;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
@@ -25,6 +26,16 @@ public class ViewController {
     private static final boolean ENGINE_STATE_ON = true;
 
     @FXML
+    private ImageView brake;
+    private Image brakeDownImage;
+    private Image brakeImage;
+    
+    @FXML
+    private ImageView gas;
+    private Image gasDownImage;
+    private Image gasImage;
+    
+    @FXML
     private ImageView steeringWheelImage;
 
     @FXML
@@ -37,6 +48,19 @@ public class ViewController {
         mainViewBorderPane.setOnKeyPressed(key -> handleKeyboardInputKeyDown(key.getCode()));
         mainViewBorderPane.setOnKeyReleased(key -> handleKeyboardInputKeyUp(key.getCode()));
         mainViewBorderPane.setOnMouseEntered(m -> mainViewBorderPane.requestFocus());
+        
+        String brakePath = brake.getImage().impl_getUrl();
+        String resPath = brakePath.substring(0, brakePath.lastIndexOf('/')) + "/";
+        
+        brakeDownImage = new Image(resPath + "brakedown.png");
+        brakeImage = new Image(resPath + "brake.png");
+        System.out.println(brakeDownImage.impl_getUrl());
+        System.out.println(brakeImage.impl_getUrl());
+
+
+        gasDownImage = new Image(resPath + "gasdown.png");
+        gasImage = new Image(resPath + "gas.png");
+
     }
 
     // TODO move this somewhere else
@@ -83,7 +107,20 @@ public class ViewController {
         // Update steering wheel position
         steeringWheelImage.setRotate(model.carState.getFrontWheelDeviation());
         
+        
         // Update gas / brake pedal pictures
+        if (model.carState.isBraking()) {
+        	brake.setImage(brakeDownImage);
+        } else {
+        	brake.setImage(brakeImage);
+        }
+        
+        if (model.carState.isAccelerating()) {
+        	gas.setImage(gasDownImage);
+        } else {
+        	gas.setImage(gasImage);
+        }
+        
         
         // Update information listed on right of screen
     }

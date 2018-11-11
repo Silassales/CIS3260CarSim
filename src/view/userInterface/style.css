@@ -26,8 +26,3 @@
     -fx-background-image: url("res/steeringWheel.png");
     -fx-background-size: cover;
 }
-
-#pedals_pane {
-    -fx-background-image: url("res/pedals.png");
-    -fx-background-size: cover;
-}
