@@ -51,6 +51,7 @@ public class TopDownCarView extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("mainView.fxml"));
         Parent root = loader.load();
         viewController = loader.getController();
+
         primaryStage.setTitle("Car Sim");
         Scene mainScene = new Scene(root, 1000, 800);
         primaryStage.setScene(mainScene);

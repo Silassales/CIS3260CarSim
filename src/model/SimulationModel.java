@@ -23,7 +23,7 @@ public class SimulationModel implements ISimulatable {
 				/* double:rpm, double:temperature, boolean:isEngineOn */
 				.withEngine(1000, 20, true) 
 				/* double:speedms, double:directionDegree, double:longitude, double: latitude, double: altitude*/
-				.withLocation(100.0, 0.0, 0.0, 0.0, 0.0)
+				.withLocation(0, 0.0, 400.0, 400.0, 0.0)
 				/* int:totalGears, int:currentGear, boolean:hasReverse */
 				.withTransmission(5, 1, false)
 				.withGasLevel(100) //double 

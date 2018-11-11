@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import model.SimulationModel;
 
@@ -42,6 +43,12 @@ public class ViewController {
     private BorderPane mainViewBorderPane;
 
     @FXML
+    private AnchorPane mainSimulationViewPane;
+
+    @FXML
+    private ResizableMainViewCanvas mainViewCanvas;
+
+    @FXML
     public void initialize() {
         setupPropertiesFile();
 
@@ -61,6 +68,9 @@ public class ViewController {
         gasDownImage = new Image(resPath + "gasdown.png");
         gasImage = new Image(resPath + "gas.png");
 
+
+        mainViewCanvas.widthProperty().bind(mainSimulationViewPane.widthProperty());
+        mainViewCanvas.heightProperty().bind(mainSimulationViewPane.heightProperty());
     }
 
     // TODO move this somewhere else
@@ -89,7 +99,7 @@ public class ViewController {
     // that an update of the view to reflect the engine being off needs to wait until next tick, but that means that we
     // might have some issues later on
     public void handleEngineOnOffButton() {
-        if(ENGINE_STATE_ON) {
+        if (ENGINE_STATE_ON) {
             handleEngineOff();
         } else {
             handleEngineOn();
@@ -101,9 +111,10 @@ public class ViewController {
         // Update view components
         System.out.println("Updating the view components");
         SimulationModel model = ControlCenter.getControlCenter().getModel();
-        
-        // Draw car on screen at right position 
-        
+
+        // Draw everything on the canvas
+        mainViewCanvas.render(model);
+
         // Update steering wheel position
         steeringWheelImage.setRotate(model.carState.getFrontWheelDeviation());
         
@@ -142,11 +153,11 @@ public class ViewController {
             handleShiftGearUp();
         }
     }
-    
+
     private void handleKeyboardInputKeyUp(KeyCode keyCode) {
 
         System.out.println("Key up: " + keyCode);
-       
+
         if (keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_accelerate_primary")) || keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_accelerate_secondary"))) {
             ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.NO_GAS));
         } else if (keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_turn_left_primary")) || keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_turn_left_secondary"))) {
@@ -158,24 +169,15 @@ public class ViewController {
         }
     }
 
-    /**
-     * For every event we will have the first part of the method dealing with handling UI changes the the view knows how to make
-     * (if any exist, ex. turning the steering wheel when turning the car)
-     * Then the second part will consist of informing the control center of the event, in which any UI changes that need to happen
-     * after that, the View will be informed of later and render on the next tick
-     */
-
     private void handleAccelerate() {
         ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.SPEED_UP));
     }
 
     private void handleTurnCarRightEvent() {
-        //steeringWheelImage.setRotate(steeringWheelImage.getRotate() + 5);
         ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.TURN_RIGHT));
     }
 
     private void handleTurnCarLeftEvent() {
-        //steeringWheelImage.setRotate(steeringWheelImage.getRotate() - 5);
         ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.TURN_LEFT));
     }
 
@@ -198,4 +200,5 @@ public class ViewController {
     public void handleEngineOff() {
         ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.ENGINE_OFF));
     }
+
 }
