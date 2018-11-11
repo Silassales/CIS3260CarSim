@@ -25,6 +25,10 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 		return singletonRef;
 	}
 	
+	public SimulationModel getModel() {
+		return model;
+	}
+	
 	private ControlCenter() {
 		try {
 			model = new SimulationModel();

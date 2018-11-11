@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import model.SimulationModel;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -75,6 +76,16 @@ public class ViewController {
     public void updateView() {
         // Update view components
         System.out.println("Updating the view components");
+        SimulationModel model = ControlCenter.getControlCenter().getModel();
+        
+        // Draw car on screen at right position 
+        
+        // Update steering wheel position
+        steeringWheelImage.setRotate(model.carState.getFrontWheelDeviation());
+        
+        // Update gas / brake pedal pictures
+        
+        // Update information listed on right of screen
     }
 
     private void handleKeyboardInputKeyDown(KeyCode keyCode) {
