@@ -106,37 +106,27 @@
     </bottom>
 
     <right>
-        <TabPane prefHeight="200.0" prefWidth="300.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-            <tabs>
-                <Tab text="Primary Car Info">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        	<children> 
-        		 				<Label text="Gas Remaining" layoutX="5" layoutY="5" minHeight="16" minWidth="69" /> 
-            	 				<ProgressBar fx:id="progressBarGasLevel"  layoutX="100" layoutY="5" maxWidth="90" />
-     	 				        <Label fx:id="lblGasLevel" text="Remaining" layoutX="200" layoutY="5" minHeight="16" minWidth="69" /> 
-  								<Label fx:id="lblCurrentSpeed" text="Speed" layoutX="5" layoutY="25"/>
-							  	<Label fx:id="lblRPM" text="RPM" layoutX="5" layoutY="45"/>
-							  	<Label fx:id="lblCurrentGear" text="CurrentGear" layoutX="5" layoutY="65"/>
-							  	<Label fx:id="lblEngineTemp" text="EngineTemp" layoutX="5" layoutY="85"/>
-							  	<Label fx:id="lblLongLat" text="LONG/LAT" layoutX="5" layoutY="105" /> 
-							  	<Label fx:id="lblDirectionDegrees" text="DirectionDegrees" layoutX="5" layoutY="125"/>
-  								
-            				</children>
-                    </content>
-                </Tab>
-                <Tab text="Secondary Car Info">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                		   <children> 
-  								<Label fx:id="lblFrontWheelDeviation" text="FW Deviation" layoutX="5" layoutY="5"/>
-							  	<Label fx:id="lblAltitude" text="Altitude" layoutX="5" layoutY="25"/>
-							  	<Label fx:id="lblIntegrity" text="Integirity of Car" layoutX="5" layoutY="45"/>
-            				</children>
-                    </content>
-                </Tab>
-            </tabs>
-        </TabPane>
+       
+       <AnchorPane minHeight="190" minWidth="70" prefHeight="180.0" prefWidth="200.0" >
+          <children> 
+    		 	<Label text="Gas Remaining" layoutX="5" layoutY="5" minHeight="16" minWidth="69" /> 
+        	 	<ProgressBar fx:id="progressBarGasLevel"  layoutX="100" layoutY="5" maxWidth="90" />
+				<Label fx:id="lblGasLevel" text="Remaining" layoutX="200" layoutY="5" minHeight="16" minWidth="69" /> 
+				<Label fx:id="lblCurrentSpeed" text="Speed" layoutX="5" layoutY="25"/>
+			  	<Label fx:id="lblRPM" text="RPM" layoutX="5" layoutY="45"/>
+			  	<Label fx:id="lblCurrentGear" text="CurrentGear" layoutX="5" layoutY="65"/>
+			  	<Label fx:id="lblEngineTemp" text="EngineTemp" layoutX="5" layoutY="85"/>
+			  	<Label fx:id="lblLongLat" text="LONG/LAT" layoutX="5" layoutY="105" /> 
+			  	<Label fx:id="lblDirectionDegrees" text="DirectionDegrees" layoutX="5" layoutY="125"/>
+		  		<Label fx:id="lblFrontWheelDeviation" text="FW Deviation" layoutX="5" layoutY="145"/>
+			  	<Label fx:id="lblAltitude" text="Altitude" layoutX="5" layoutY="165"/>
+			  	<Label fx:id="lblIntegrity" text="Integirity of Car" layoutX="5" layoutY="185"/>
+						
+            </children>
+        </AnchorPane>
+          
+              
+   
     </right>
 
     <center>
