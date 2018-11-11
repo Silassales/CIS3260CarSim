@@ -9,14 +9,11 @@ public class Location implements ISimulatable {
 	}
 
 	private Double speedms = null; //Speed Milliseconds
-	Double directionDegrees = null; //Degree, 0 to 360
+	private Double directionDegrees = null; //Degree, 0 to 360
 	private Double latitude = null; //x position of carState
 	private Double longitude = null; //y position of carState
 	private Double altitudeM = null; //Meters Altitude
-	
-	public void updateSpeed (double timeDelta_ms) {
-		speedms *= 0.95; // Slowly decrease speed 
-	}
+
 	
 	public void updateLocation(double timeDelta_ms) {
 		double distance = speedms * (timeDelta_ms / 1000);
@@ -141,7 +138,6 @@ public class Location implements ISimulatable {
 	public void iterateSimulation(long time_ms) {
 		// TODO Auto-generated method stub
 		updateLocation(time_ms);
-		updateSpeed(time_ms);
 	}
 	
 	

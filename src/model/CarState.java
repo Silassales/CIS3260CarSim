@@ -17,6 +17,8 @@ public class CarState implements ISimulatable {
 	private Double gasLevel = null; 
 	private Double structuralIntegrity = null;
 	private Double frontWheelDeviation = null; 
+	private boolean isBraking = false;
+	private boolean isAccelerating = false;
 	
 	
 	public double getGasLevel() {
@@ -29,12 +31,51 @@ public class CarState implements ISimulatable {
 		return this.frontWheelDeviation; 
 	}
 	
+	public void setIsBraking(boolean braking) {
+		this.isBraking = braking;
+	}
+	
+	public void setIsAccelerating(boolean accelerating) {
+		this.isAccelerating = accelerating;
+	}
+	
+	public void turnLeft() {
+		this.frontWheelDeviation = -45.0;
+	}
+	
+	public void turnRight() {
+		this.frontWheelDeviation = 45.0;
+	}
+	
+	public void turnStraight() {
+		this.frontWheelDeviation = 0.0;
+	}
+	
 	public void updateGas(long timeDelta_ms) {
 		this.gasLevel -= engine.getRpm()/1000 * timeDelta_ms/1000;
 	}
 
 	public void steerVehicle(long timeDelta_ms) {
-		location.directionDegrees += frontWheelDeviation * timeDelta_ms/1000;
+		location.setDirectionDegrees(location.getDirectionDegrees() + frontWheelDeviation * timeDelta_ms/1000);
+	}
+	
+	public void updateSpeed (double timeDelta_ms) {
+		double acceleration = 0;
+		
+		if (isBraking) {
+			acceleration -= 9.8; // Slow down at 9.8 m/s^2
+		}
+		
+		if (isAccelerating) {
+			acceleration += 6.0; // Slowing is stronger than speeding up
+		} 
+		
+		acceleration -= 1.5; // Rolling resistance
+		
+		// TODO handle different acceleration rates with different gears
+		// TODO don't go backwards when braking while stopped
+		
+		location.setSpeedms(location.getSpeedms() + (acceleration * (timeDelta_ms / 1000)));
 	}
 
 	@Override
@@ -44,6 +85,7 @@ public class CarState implements ISimulatable {
 		location.iterateSimulation(time_ms);
 		steerVehicle(time_ms);
 		updateGas(time_ms);
+		updateSpeed(time_ms);
 	}
 	
 	/* Built car has is OFF, in PARK, room temperature, rpm is 0, and in default location */

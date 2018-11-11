@@ -7,8 +7,6 @@ import model.NullDataFoundAtBuild;
 import model.SimulationModel;
 import view.userInterface.TopDownCarView;
 
-import java.util.concurrent.TimeUnit;
-
 public class ControlCenter implements UserInputEventListener, TimerEventListener {
 	private SimulationModel model;
 	private Ticker gameSimulationTicker;
@@ -47,18 +45,55 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 		// TODO Auto-generated method stub
 		System.out.println("We have an event!" + e);
 
-		switch(e.getEventType()) {
-            case QUIT_PROGRAM:
-                stopSimulation();
-                break;
-            default:
-                break;
+		switch (e.getEventType()) {
+		case QUIT_PROGRAM:
+			stopSimulation();
+			break;
+		case ENGINE_OFF:
+			model.carState.engine.stopEngine();
+			break;
+		case ENGINE_ON:
+			model.carState.engine.startEngine();
+			break;
+		case SHIFT_GEAR_DOWN:
+			model.carState.transmission.shiftGearDown();
+			break;
+		case SHIFT_GEAR_UP:
+			model.carState.transmission.shiftGearUp();
+			break;
+		case SLOW_DOWN:
+			model.carState.setIsBraking(true);
+			break;
+		case NO_BRAKE:
+			model.carState.setIsBraking(false);
+			break;
+		case SPEED_UP:
+			model.carState.setIsAccelerating(true);
+			break;
+		case NO_GAS:
+			model.carState.setIsAccelerating(false);
+			break;
+		case STRAIGHTEN_WHEEL:
+			model.carState.turnStraight();
+			break;
+		case TEST:
+			break;
+		case TURN_LEFT:
+			model.carState.turnLeft();
+			break;
+		case TURN_RIGHT:
+			model.carState.turnRight();
+			break;
+
+		default:
+			break;
+
         }
 	}
 	
 	@Override
 	public void handleTimerEvent(long time_delta_ms, long currentTime) {
-		System.out.println("Timer event! " + currentTime);
+		//System.out.println("Timer event! " + currentTime);
 		model.iterateSimulation(time_delta_ms);
 		System.out.println(model);
 		

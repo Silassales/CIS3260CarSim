@@ -30,9 +30,9 @@ public class SimulationModel implements ISimulatable {
 				/* double:speedms, double:directionDegree, double:longitude, double: latitude, double: altitude*/
 				.withLocation(100.0, 0.0, 0.0, 0.0, 0.0)
 				/* int:totalGears, int:currentGear, boolean:hasReverse */
-				.withTransmission(5, 0, false)
+				.withTransmission(5, 1, false)
 				.withGasLevel(100) //double 
-				.withFrontWheelDeviation(45) //double
+				.withFrontWheelDeviation(0) //double
 				.withStructuralIntegrity(100) //double
 				.build(); 
 		

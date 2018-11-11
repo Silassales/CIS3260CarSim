@@ -3,7 +3,6 @@ package view.userInterface;
 import controller.ControlCenter;
 import controller.InputEvent;
 import controller.InputEventType;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -107,12 +106,12 @@ public class ViewController {
     }
 
     private void handleTurnCarRightEvent() {
-        steeringWheelImage.setRotate(steeringWheelImage.getRotate() + 5);
+        //steeringWheelImage.setRotate(steeringWheelImage.getRotate() + 5);
         ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.TURN_RIGHT));
     }
 
     private void handleTurnCarLeftEvent() {
-        steeringWheelImage.setRotate(steeringWheelImage.getRotate() - 5);
+        //steeringWheelImage.setRotate(steeringWheelImage.getRotate() - 5);
         ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.TURN_LEFT));
     }
 
