@@ -66,7 +66,7 @@ public class ResizableMainViewCanvas extends Canvas {
 
     private void drawGround(GraphicsContext gc, SimulationModel model) {
         gc.setFill(Color.WHITE);
-        gc.fillRect(0,0, getWidth(), getHeight());
+        gc.fillRect(0, 0, getWidth(), getHeight());
     }
 
     private void drawRoads(GraphicsContext gc, SimulationModel model) {
@@ -78,8 +78,8 @@ public class ResizableMainViewCanvas extends Canvas {
     }
 
     private void drawCar(GraphicsContext gc, SimulationModel model) {
-        final double carX = model.carState.location.getLatitude();
-        final double carY = model.carState.location.getLongitude();
+        final double carX = getXCoordinate(model.carState.location.getLatitude());
+        final double carY = getYCoordinate(model.carState.location.getLongitude());
 
         System.out.println("Drawing the car at postion:  [X=" + carX + ", Y=" + carY + "]");
 
@@ -92,4 +92,13 @@ public class ResizableMainViewCanvas extends Canvas {
         // TODO
     }
 
+
+    /* we want the middle to the screen to represent 0,0 so all we need to do is add width/2 and height/2 to the lat and long */
+    private int getXCoordinate(double latitude) {
+        return (int) (latitude + (getWidth() / 2));
+    }
+
+    private int getYCoordinate(double longitude) {
+        return (int) (longitude + (getHeight() / 2));
+    }
 }
