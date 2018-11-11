@@ -1,8 +1,11 @@
 package view.userInterface;
 
 import controller.ControlCenter;
+
 import controller.InputEvent;
 import controller.InputEventType;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,11 +13,17 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import model.SimulationModel;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.Properties;
+import java.util.ResourceBundle;
+
 
 public class ViewController {
 
@@ -42,6 +51,98 @@ public class ViewController {
     @FXML
     private BorderPane mainViewBorderPane;
 
+    
+    /* Primary Car Tab Info ~ IN ORDER */ 
+    @FXML 
+    private ProgressBar progressBarGasLevel; 
+    
+    @FXML 
+    private Label lblGasLevel; 
+    
+    @FXML 
+    private Label lblCurrentSpeed; 
+    
+    @FXML 
+    private Label lblRPM; 
+    
+    @FXML 
+    private Label lblCurrentGear; 
+    
+    @FXML 
+    private Label lblEngineTemp;
+    
+    @FXML 
+    private Label lblLongLat; 
+  
+    @FXML 
+    private Label lblDirectionDegrees; 
+    
+    
+    
+    /* Secondary Car Tab Info  ~ IN ORDER */
+    
+    @FXML 
+    private Label lblFrontWheelDeviation; 
+    
+    @FXML 
+    private Label lblAltitude; 
+    
+    @FXML 
+    private Label lblIntegrity; 
+    
+
+    
+
+    static DoubleProperty gasLevelUpdater = new SimpleDoubleProperty(.0);
+    DecimalFormat df = new DecimalFormat();
+
+    
+    /* Updating Primary Car Tab Info ~IN ORDER */ 
+    public void updateGasLevel(double newGasLevel) { 
+    	this.gasLevelUpdater.set(newGasLevel/100);
+        this.lblGasLevel.setText(df.format(newGasLevel) + "%");
+    }
+    
+    public void updateCurrentSpeed(double currentSpeed) {
+    	this.lblCurrentSpeed.setText("Speed: " + df.format(currentSpeed) + " m/s");
+    }
+    
+    public void updateRPM(double rpm) {
+    	this.lblRPM.setText("RPM: " + df.format(rpm));
+    }
+    
+    public void updateCurrentGear(int currentGear) {
+    	this.lblCurrentGear.setText("CurrentGear: " + df.format(currentGear));
+    }
+    
+    public void updateEngineTemp(double engineTemp) {
+    	this.lblEngineTemp.setText("Engine Temp (c): " + df.format(engineTemp));
+    }
+    
+    public void updateLongLat(double latitude, double longitude) {
+    	this.lblLongLat.setText("latitude: " + df.format(latitude) + ", longitude: " + df.format(longitude));
+    }
+    
+    
+    public void updateDirectionDegrees(double directionDegrees) {
+    	this.lblDirectionDegrees.setText("Direction in Degrees: " + df.format(directionDegrees));
+    }
+    
+    /* Updating Primary Car Tab Info ~IN ORDER */ 
+
+    public void updateFrontWheelDeviation(double frontWheelDeviation) {
+    	this.lblFrontWheelDeviation.setText("Front Wheel Deviation: " + df.format(frontWheelDeviation));
+    }
+    
+    public void updateAltitude(double altitude) {
+    	this.lblAltitude.setText("Altitude: " + df.format(altitude));
+    }
+   
+    public void updateIntegrity(double integrity) {
+    	this.lblIntegrity.setText("Car Integrity %: " + df.format(integrity));
+    }
+   
+    
     @FXML
     private AnchorPane mainSimulationViewPane;
 
@@ -51,7 +152,6 @@ public class ViewController {
     @FXML
     public void initialize() {
         setupPropertiesFile();
-
         mainViewBorderPane.setOnKeyPressed(key -> handleKeyboardInputKeyDown(key.getCode()));
         mainViewBorderPane.setOnKeyReleased(key -> handleKeyboardInputKeyUp(key.getCode()));
         mainViewBorderPane.setOnMouseEntered(m -> mainViewBorderPane.requestFocus());
@@ -71,6 +171,12 @@ public class ViewController {
 
         mainViewCanvas.widthProperty().bind(mainSimulationViewPane.widthProperty());
         mainViewCanvas.heightProperty().bind(mainSimulationViewPane.heightProperty());
+
+        //set reusable decimal formatter to only print 1 decimal 
+    	df.setMaximumFractionDigits(1);
+        this.progressBarGasLevel.progressProperty().bind(gasLevelUpdater);
+
+
     }
 
     // TODO move this somewhere else
@@ -99,13 +205,14 @@ public class ViewController {
     // that an update of the view to reflect the engine being off needs to wait until next tick, but that means that we
     // might have some issues later on
     public void handleEngineOnOffButton() {
-        if (ENGINE_STATE_ON) {
-            handleEngineOff();
-        } else {
-            handleEngineOn();
-        }
+    	   if (ENGINE_STATE_ON) {
+               handleEngineOff();
+           } else {
+               handleEngineOn();
+           }
     }
-
+    
+  
 
     public void updateView() {
         // Update view components
@@ -118,6 +225,7 @@ public class ViewController {
         // Update steering wheel position
         steeringWheelImage.setRotate(model.carState.getFrontWheelDeviation());
         
+
         
         // Update gas / brake pedal pictures
         if (model.carState.isBraking()) {
@@ -132,8 +240,22 @@ public class ViewController {
         	gas.setImage(gasImage);
         }
         
+
         
-        // Update information listed on right of screen
+        //Updating Primary Car Info ~IN ORDER 
+        this.updateGasLevel(model.carState.getGasLevel());
+        this.updateCurrentSpeed(model.carState.location.getSpeedms());
+        this.updateRPM(model.carState.engine.getRpm());
+        this.updateCurrentGear(model.carState.transmission.getCurrentGear());
+        this.updateEngineTemp(model.carState.engine.getTemperatureC());
+        this.updateLongLat(model.carState.location.getLatitude(), model.carState.location.getLongitude());
+        this.updateDirectionDegrees(model.carState.location.getDirectionDegrees());
+        
+        //Updating Secondary Car Info 
+        this.updateFrontWheelDeviation(model.carState.getFrontWheelDeviation());
+        this.updateAltitude(model.carState.location.getAltitudeM());
+        this.updateIntegrity(model.carState.getStructuralIntegrity());
+        
     }
 
     private void handleKeyboardInputKeyDown(KeyCode keyCode) {
