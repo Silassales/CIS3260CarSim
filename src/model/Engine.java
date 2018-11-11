@@ -22,8 +22,10 @@ public class Engine implements ISimulatable {
 	}
 
 	public void updateEngineTemp(double timeDelta_ms) {
-		double tempChange = timeDelta_ms/1000 * rpm/1000 * 0.5;
-		this.temperatureC +=  tempChange;
+		if (isEngineOn) {
+			double tempChange = timeDelta_ms/1000 * rpm/1000 * 0.5;
+			this.temperatureC +=  tempChange;
+		}
 	}
 
 	public double getRpm() {

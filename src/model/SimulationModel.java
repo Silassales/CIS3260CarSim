@@ -3,21 +3,16 @@ package model;
 public class SimulationModel implements ISimulatable {
 
 	public CarState carState = null; 
-	private long time_ms = 0; 
 	
 	public void iterateSimulation(long time_ms) {
-		this.time_ms = time_ms; 
 		//call methods to iterate all car state variables etc. 
 		carState.iterateSimulation(time_ms);
 	}
-	
-	public long getTime() {
-		return this.time_ms; 
-	}
+
 	
 	@Override
 	public String toString() {
-		return "SimulationModel [carState=" + carState + ", time_ms=" + time_ms + "]";
+		return "SimulationModel [carState=" + carState + "]";
 	}
 
 	/* We could have this take arguements for initalization, but that seems greasy */ 

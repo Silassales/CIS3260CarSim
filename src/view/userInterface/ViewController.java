@@ -33,7 +33,8 @@ public class ViewController {
     public void initialize() {
         setupPropertiesFile();
 
-        mainViewBorderPane.setOnKeyPressed(key -> handleKeyboardInput(key.getCode()));
+        mainViewBorderPane.setOnKeyPressed(key -> handleKeyboardInputKeyDown(key.getCode()));
+        mainViewBorderPane.setOnKeyReleased(key -> handleKeyboardInputKeyUp(key.getCode()));
         mainViewBorderPane.setOnMouseEntered(m -> mainViewBorderPane.requestFocus());
     }
 
@@ -76,9 +77,9 @@ public class ViewController {
         System.out.println("Updating the view components");
     }
 
-    private void handleKeyboardInput(KeyCode keyCode) {
+    private void handleKeyboardInputKeyDown(KeyCode keyCode) {
 
-        System.out.println("Keyboard event: " + keyCode);
+        System.out.println("Key down: " + keyCode);
         if (keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_accelerate_primary")) || keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_accelerate_secondary"))) {
             handleAccelerate();
         } else if (keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_turn_left_primary")) || keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_turn_left_secondary"))) {
@@ -91,6 +92,21 @@ public class ViewController {
             handleShiftGearDown();
         } else if (keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_shift_gear_up"))) {
             handleShiftGearUp();
+        }
+    }
+    
+    private void handleKeyboardInputKeyUp(KeyCode keyCode) {
+
+        System.out.println("Key up: " + keyCode);
+       
+        if (keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_accelerate_primary")) || keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_accelerate_secondary"))) {
+            ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.NO_GAS));
+        } else if (keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_turn_left_primary")) || keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_turn_left_secondary"))) {
+            ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.STRAIGHTEN_WHEEL));
+        } else if (keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_turn_right_primary")) || keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_turn_right_secondary"))) {
+            ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.STRAIGHTEN_WHEEL));
+        } else if (keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_slow_down_primary")) || keyCode == KeyCode.getKeyCode(prop.getProperty("keybind_slow_down_secondary"))) {
+            ControlCenter.getControlCenter().handleUserInput(new InputEvent(InputEventType.NO_BRAKE));
         }
     }
 

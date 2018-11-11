@@ -6,7 +6,7 @@ public class CarState implements ISimulatable {
 	public String toString() {
 		return "CarState [location=" + location + ", engine=" + engine + ", transmission=" + transmission
 				+ ", gasLevel=" + gasLevel + ", structuralIntegrity=" + structuralIntegrity + ", frontWheelDeviation="
-				+ frontWheelDeviation + "]";
+				+ frontWheelDeviation + ", isBraking=" + isBraking + ", isAccelerating=" + isAccelerating + "]";
 	}
 
 	/* Objects */ 
@@ -52,7 +52,9 @@ public class CarState implements ISimulatable {
 	}
 	
 	public void updateGas(long timeDelta_ms) {
-		this.gasLevel -= engine.getRpm()/1000 * timeDelta_ms/1000;
+		if (engine.isEngineOn()) {
+			this.gasLevel -= engine.getRpm()/1000 * timeDelta_ms/1000;
+		}
 	}
 
 	public void steerVehicle(long timeDelta_ms) {
@@ -67,7 +69,9 @@ public class CarState implements ISimulatable {
 		}
 		
 		if (isAccelerating) {
-			acceleration += 6.0; // Slowing is stronger than speeding up
+			if (engine.isEngineOn()) {
+				acceleration += 6.0; // Slowing is stronger than speeding up
+			}
 		} 
 		
 		acceleration -= 1.5; // Rolling resistance
