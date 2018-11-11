@@ -88,7 +88,8 @@ public class ControlCenter implements UserInputEventListener, TimerEventListener
 		case TURN_RIGHT:
 			model.carState.turnRight();
 			break;
-
+        case OUT_OF_BOUNDS:
+            model.carState.outOfBounds();
 		default:
 			break;
 

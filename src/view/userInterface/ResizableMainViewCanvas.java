@@ -1,11 +1,19 @@
 package view.userInterface;
 
+import controller.ControlCenter;
+import controller.InputEvent;
+import controller.InputEventType;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import model.SimulationModel;
 
 public class ResizableMainViewCanvas extends Canvas {
+
+    private static final int CAR_WIDTH = 2;
+    private static final int CAR_HEIGHT = 5;
+
+    private ControlCenter controlCenter = ControlCenter.getControlCenter();
 
     public ResizableMainViewCanvas() {
         widthProperty().addListener(evt -> draw());
@@ -81,6 +89,7 @@ public class ResizableMainViewCanvas extends Canvas {
         final double carX = getXCoordinate(model.carState.location.getLatitude());
         final double carY = getYCoordinate(model.carState.location.getLongitude());
 
+
         System.out.println("Drawing the car at postion:  [X=" + carX + ", Y=" + carY + "]");
 
         /* TODO change this to an actual image of a car */
@@ -95,10 +104,24 @@ public class ResizableMainViewCanvas extends Canvas {
 
     /* we want the middle to the screen to represent 0,0 so all we need to do is add width/2 and height/2 to the lat and long */
     private int getXCoordinate(double latitude) {
-        return (int) (latitude + (getWidth() / 2));
+        return checkXOutOfBounds((int) (latitude + (getWidth() / 2)));
     }
 
     private int getYCoordinate(double longitude) {
-        return (int) (longitude + (getHeight() / 2));
+        return checkYOutOfBounds((int) (longitude + (getHeight() / 2)));
+    }
+
+    private int checkXOutOfBounds(int x) {
+        if(x < 0 || x > getWidth()) {
+            controlCenter.handleUserInput(new InputEvent(InputEventType.OUT_OF_BOUNDS));
+        }
+        return x;
+    }
+
+    private int checkYOutOfBounds(int y) {
+        if(y < 0 || y > getHeight()) {
+            controlCenter.handleUserInput(new InputEvent(InputEventType.OUT_OF_BOUNDS));
+        }
+        return y;
     }
 }
