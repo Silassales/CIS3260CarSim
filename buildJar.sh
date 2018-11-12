@@ -4,7 +4,8 @@ set -e
 
 mkdir -p build
 javac -d build src/controller/*.java src/model/*.java src/view/userInterface/*.java
-cp -r src/res/ build/
+mkdir -p build/res
+cp src/res/* build/res/
 cp src/view/userInterface/mainView.fxml build/view/userInterface/
 cp src/config.properties build/
 mkdir -p build/META-INF
