@@ -80,7 +80,9 @@ public class CarState implements ISimulatable {
     }
 
     public void steerVehicle(long timeDelta_ms) {
-        location.setDirectionDegrees(location.getDirectionDegrees() + frontWheelDeviation * timeDelta_ms / 1000);
+        if(isAccelerating) {
+            location.setDirectionDegrees(location.getDirectionDegrees() + frontWheelDeviation * timeDelta_ms / 1000);
+        }
     }
 
     public void updateSpeed(double timeDelta_ms) {
