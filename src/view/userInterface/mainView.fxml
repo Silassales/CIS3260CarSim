@@ -62,7 +62,7 @@
             <children>
                 <ImageView fx:id="steeringWheelImage" fitHeight="202.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                     <image>
-                        <Image url="@res/steeringWheel.png" />
+                        <Image url="@../../res/steeringWheel.png" />
                     </image>
                 </ImageView>
                 <GridPane GridPane.columnIndex="2">
@@ -91,12 +91,12 @@
                     <children>
                         <ImageView id="brake" fx:id="brake" fitHeight="202.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0">
                             <image>
-                                <Image url="@res/brake.png" />
+                                <Image url="@../../res/brake.png" />
                             </image>
                         </ImageView>
                         <ImageView id="gas" fx:id="gas" fitHeight="202.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                             <image>
-                                <Image url="@res/gas.png" />
+                                <Image url="@../../res/gas.png" />
                             </image>
                         </ImageView>
                     </children>
