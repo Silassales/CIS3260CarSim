@@ -7,7 +7,8 @@ javac -d build src/controller/*.java src/model/*.java src/view/userInterface/*.j
 cp -r src/res/ build/
 cp src/view/userInterface/mainView.fxml build/view/userInterface/
 cp src/config.properties build/
-cp -r META-INF/ build/
+mkdir -p build/META-INF
+cp META-INF/MANIFEST.MF build/META-INF/
 
 cd build
 jar cmvf META-INF/MANIFEST.MF CIS3260CarSimTeam2.jar *
