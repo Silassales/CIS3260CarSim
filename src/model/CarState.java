@@ -80,7 +80,7 @@ public class CarState implements ISimulatable {
     }
 
     public void steerVehicle(long timeDelta_ms) {
-        if(isAccelerating) {
+        if(location.getSpeedms() > 0) {
             location.setDirectionDegrees(location.getDirectionDegrees() + frontWheelDeviation * timeDelta_ms / 1000);
         }
     }
@@ -88,13 +88,29 @@ public class CarState implements ISimulatable {
     public void updateSpeed(double timeDelta_ms) {
         double acceleration = 0;
 
-        if (isBraking) {
-            acceleration -= 9.8; // Slow down at 9.8 m/s^2
+        if (isBraking && location.getSpeedms() > 0) {
+            //acceleration -= 9.8; // Slow down at 9.8 m/s^2
+
+            // my quick attempt at making the car not feel like molasses in quick sand
+
+            if(location.getSpeedms() < 80) {
+                acceleration -= 200.0;
+            } else {
+                acceleration -= 100.0;
+            }
         }
 
         if (isAccelerating) {
             if (engine.isEngineOn()) {
-                acceleration += 6.0; // Slowing is stronger than speeding up
+                // acceleration += 6.0; // Slowing is stronger than speeding up
+
+                // my quick attempt at making the car not feel like molasses in quick sand
+
+                if(location.getSpeedms() < 80) {
+                    acceleration += 100.0;
+                } else {
+                    acceleration += 40.0;
+                }
             }
         }
 
