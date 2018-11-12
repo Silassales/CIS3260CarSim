@@ -104,12 +104,22 @@ public class ResizableMainViewCanvas extends Canvas {
         System.out.println("Drawing the car at postion:  [X=" + carX + ", Y=" + carY + "]");
 
         Image carImage;
-        if (model.carState.getFrontWheelDeviation() == -45.0) {
-            carImage = new Image(getClass().getResourceAsStream("/res/audir8left.png"));
-        } else if (model.carState.getFrontWheelDeviation() == 0.0) {
-            carImage = new Image(getClass().getResourceAsStream("/res/audir8normal.png"));
+        if(model.carState.isBraking()) {
+            if (model.carState.getFrontWheelDeviation() == -45.0) {
+                carImage = new Image(getClass().getResourceAsStream("/res/audir8leftbraking.png"));
+            } else if (model.carState.getFrontWheelDeviation() == 0.0) {
+                carImage = new Image(getClass().getResourceAsStream("/res/audir8normalbraking.png"));
+            } else {
+                carImage = new Image(getClass().getResourceAsStream("/res/audir8rightbraking.png"));
+            }
         } else {
-            carImage = new Image(getClass().getResourceAsStream("/res/audir8right.png"));
+            if (model.carState.getFrontWheelDeviation() == -45.0) {
+                carImage = new Image(getClass().getResourceAsStream("/res/audir8left.png"));
+            } else if (model.carState.getFrontWheelDeviation() == 0.0) {
+                carImage = new Image(getClass().getResourceAsStream("/res/audir8normal.png"));
+            } else {
+                carImage = new Image(getClass().getResourceAsStream("/res/audir8right.png"));
+            }
         }
 
         drawRotatedImage(gc, carImage, model.carState.location.getDirectionDegrees()-270, carX, carY);
