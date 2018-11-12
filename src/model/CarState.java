@@ -61,7 +61,14 @@ public class CarState implements ISimulatable {
         this.frontWheelDeviation = 0.0;
     }
 
-    public void outOfBounds() {
+    // car state only knows long/lat, doesnt know canvas size therefore hard to set it to anything other than middle of canvas without more work
+    // eg an explicit call to the view to tell it to move the car to the bottom of the screen
+    public void outOfBoundsHorizontal() {
+        this.location.setLongitude(0.0);
+        this.location.setLatitude(0.0);
+    }
+
+    public void outOfBoundsVertical() {
         this.location.setLongitude(0.0);
         this.location.setLatitude(0.0);
     }

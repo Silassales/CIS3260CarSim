@@ -6,13 +6,21 @@ import controller.InputEventType;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import model.SimulationModel;
 
 public class ResizableMainViewCanvas extends Canvas {
 
     private ControlCenter controlCenter = ControlCenter.getControlCenter();
+
+    /* load in all our images once, dont know if this helps performance or not */
+    private final Image backgroundImage = new Image(getClass().getResourceAsStream("/res/background.png"));
+    private final Image carBrakingTurningLeft = new Image(getClass().getResourceAsStream("/res/audir8leftbraking.png"));
+    private final Image carBrakingTurningRight = new Image(getClass().getResourceAsStream("/res/audir8rightbraking.png"));
+    private final Image carBrakingNormal = new Image(getClass().getResourceAsStream("/res/audir8normalbraking.png"));
+    private final Image carTurningLeft = new Image(getClass().getResourceAsStream("/res/audir8left.png"));
+    private final Image carTurningRight = new Image(getClass().getResourceAsStream("/res/audir8right.png"));
+    private final Image carTurningNormal = new Image(getClass().getResourceAsStream("/res/audir8normal.png"));
 
     public ResizableMainViewCanvas() {
         widthProperty().addListener(evt -> draw());
@@ -71,19 +79,6 @@ public class ResizableMainViewCanvas extends Canvas {
         drawBuildings(gc, model);
     }
 
-    private void drawGround(GraphicsContext gc, SimulationModel model) {
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, getWidth(), getHeight());
-    }
-
-    private void drawRoads(GraphicsContext gc, SimulationModel model) {
-        // TODO
-    }
-
-    private void drawItems(GraphicsContext gc, SimulationModel model) {
-        // TODO
-    }
-
     private void rotate(GraphicsContext gc, double angle, double px, double py) {
         Rotate r = new Rotate(angle, px, py);
         gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
@@ -96,6 +91,18 @@ public class ResizableMainViewCanvas extends Canvas {
         gc.restore();
     }
 
+    private void drawGround(GraphicsContext gc, SimulationModel model) {
+        gc.drawImage(backgroundImage, 0, 0);
+    }
+
+    private void drawRoads(GraphicsContext gc, SimulationModel model) {
+        // TODO
+    }
+
+    private void drawItems(GraphicsContext gc, SimulationModel model) {
+        // TODO
+    }
+
     private void drawCar(GraphicsContext gc, SimulationModel model) {
         final double carX = getXCoordinate(model.carState.location.getLatitude());
         final double carY = getYCoordinate(model.carState.location.getLongitude());
@@ -104,25 +111,25 @@ public class ResizableMainViewCanvas extends Canvas {
         System.out.println("Drawing the car at postion:  [X=" + carX + ", Y=" + carY + "]");
 
         Image carImage;
-        if(model.carState.isBraking()) {
+        if (model.carState.isBraking()) {
             if (model.carState.getFrontWheelDeviation() == -45.0) {
-                carImage = new Image(getClass().getResourceAsStream("/res/audir8leftbraking.png"));
+                carImage = carBrakingTurningLeft;
             } else if (model.carState.getFrontWheelDeviation() == 0.0) {
-                carImage = new Image(getClass().getResourceAsStream("/res/audir8normalbraking.png"));
+                carImage = carBrakingNormal;
             } else {
-                carImage = new Image(getClass().getResourceAsStream("/res/audir8rightbraking.png"));
+                carImage = carBrakingTurningRight;
             }
         } else {
             if (model.carState.getFrontWheelDeviation() == -45.0) {
-                carImage = new Image(getClass().getResourceAsStream("/res/audir8left.png"));
+                carImage = carTurningLeft;
             } else if (model.carState.getFrontWheelDeviation() == 0.0) {
-                carImage = new Image(getClass().getResourceAsStream("/res/audir8normal.png"));
+                carImage = carTurningNormal;
             } else {
-                carImage = new Image(getClass().getResourceAsStream("/res/audir8right.png"));
+                carImage = carTurningRight;
             }
         }
 
-        drawRotatedImage(gc, carImage, model.carState.location.getDirectionDegrees()-270, carX, carY);
+        drawRotatedImage(gc, carImage, model.carState.location.getDirectionDegrees() - 270, carX, carY);
     }
 
     private void drawBuildings(GraphicsContext gc, SimulationModel model) {
@@ -141,14 +148,14 @@ public class ResizableMainViewCanvas extends Canvas {
 
     private int checkXOutOfBounds(int x) {
         if (x < 0 || x > getWidth()) {
-            controlCenter.handleUserInput(new InputEvent(InputEventType.OUT_OF_BOUNDS));
+            controlCenter.handleUserInput(new InputEvent(InputEventType.OUT_OF_BOUNDS_HORIZONTAL));
         }
         return x;
     }
 
     private int checkYOutOfBounds(int y) {
         if (y < 0 || y > getHeight()) {
-            controlCenter.handleUserInput(new InputEvent(InputEventType.OUT_OF_BOUNDS));
+            controlCenter.handleUserInput(new InputEvent(InputEventType.OUT_OF_BOUNDS_VERTICAL));
         }
         return y;
     }
