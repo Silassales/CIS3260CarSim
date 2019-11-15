@@ -1,10 +1,4 @@
-Team 2
-Hugo Klepsch
-Elvis Nguyen
-Matthew Falkner
-Silas Sales
-Ambrose Nilam
-Build instructions
+### Build instructions
 In the ‘ solution/ ’ directory, you should find all of the source code. Included in that directory is
 the build script ‘ buildJar.sh ’. At the moment, building via the script requires a bash
 interpreter, and java executables on the main executable path of the shell. Building on Windows
