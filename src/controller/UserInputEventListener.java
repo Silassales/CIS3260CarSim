@@ -1,5 +1,5 @@
 package controller;
 
-public abstract class UserInputEventListener {
-
+public interface UserInputEventListener {
+	public abstract void handleUserInput(InputEvent e);
 }
