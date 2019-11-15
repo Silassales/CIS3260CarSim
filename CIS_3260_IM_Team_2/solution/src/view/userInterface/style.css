@@ -1,8 +1,0 @@
-.root {
-    -fx-background-color: #d9d9d9;
-}
-
-#steering_wheel_pane {
-    -fx-background-image: url("../../res/steeringWheel.png");
-    -fx-background-size: cover;
-}
